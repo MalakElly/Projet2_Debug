@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace P2FixAnAppDotNetCode.Models.Repositories
@@ -28,7 +30,6 @@ namespace P2FixAnAppDotNetCode.Models.Repositories
             _products.Add(new Product(++id, 40, 32.50, "VTech CS6114 DECT 6.0", "Cordless Phone"));
             _products.Add(new Product(++id, 50, 895.00, "NOKIA OEM BL-5J", "Cell Phone "));
         }
-
         /// <summary>
         /// Get all products from the inventory
         /// </summary>
@@ -38,16 +39,30 @@ namespace P2FixAnAppDotNetCode.Models.Repositories
             return list;
         }
 
+        //Get Product By Id
+        public Product GetProductById(int id)
+        {
+            Product myProduct = _products.Where(p => p.Id == id).FirstOrDefault();
+            return myProduct;
+        }
         /// <summary>
         /// Update the stock of a product in the inventory by its id
         /// </summary>
         public void UpdateProductStocks(int productId, int quantityToRemove)
         {
             Product product = _products.First(p => p.Id == productId);
-            product.Stock = product.Stock - quantityToRemove;
+            if (product != null)
+            {
+                product.Stock = Math.Max(0, product.Stock - quantityToRemove);
+                if (product.Stock == 0)
+                {
 
-            if (product.Stock == 0)
-                _products.Remove(product);
+                    _products.Remove(product);
+                }
+            }
+            else {
+                Debug.WriteLine("Le produit cherché n'a pas été trouvé");
+            }     
         }
     }
 }

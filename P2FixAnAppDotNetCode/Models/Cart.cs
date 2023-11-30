@@ -9,7 +9,6 @@ namespace P2FixAnAppDotNetCode.Models
     /// </summary>
     public class Cart : ICart
     {
-        // Field to store cart lines
         private List<CartLine> cartLines = new List<CartLine>();
 
         /// <summary>
@@ -18,57 +17,40 @@ namespace P2FixAnAppDotNetCode.Models
         public IEnumerable<CartLine> Lines => cartLines;
 
         /// <summary>
-        /// Return the actual cartline list
-        /// </summary>
-        /// <returns></returns>
-        private List<CartLine> GetCartLineList()
-        {
-            return cartLines;
-        }
-
-        /// <summary>
         /// Adds a product in the cart or increments its quantity in the cart if already added
         /// </summary>
         public void AddItem(Product product, int quantity)
         {
-            // Search if the product is already in the cart
-            var existingLine = cartLines.FirstOrDefault(l => l.Product.Id == product.Id);
+            CartLine existingLine = cartLines.FirstOrDefault(l => l.Product.Id == product.Id);
 
-            if (existingLine != null)
+            if (existingLine == null)
             {
-                existingLine.Quantity += quantity;
+                // Product not in cart, add a new CartLine
+                cartLines.Add(new CartLine
+                {
+                    Product = product,
+                    Quantity = quantity
+                });
             }
             else
             {
-                // Add a new line to the cart
-                cartLines.Add(new CartLine { Product = product, Quantity = quantity });
+                // Product already in cart, increment quantity
+                existingLine.Quantity += quantity;
             }
-
-            System.Diagnostics.Debug.WriteLine(cartLines);
         }
 
         /// <summary>
         /// Removes a product from the cart
         /// </summary>
-        public void RemoveLine(Product product)
-        {
+        public void RemoveLine(Product product) =>
             cartLines.RemoveAll(l => l.Product.Id == product.Id);
-        }
 
         /// <summary>
         /// Get total value of a cart
         /// </summary>
         public double GetTotalValue()
         {
-            // TODO: Implement logic to calculate the total value of the cart
-            double totalValue = 0.0;
-
-            foreach (var cartLine in cartLines)
-            {
-                totalValue += cartLine.Product.Price * cartLine.Quantity;
-            }
-
-            return totalValue;
+            return cartLines.Sum(l => l.Product.Price * l.Quantity);
         }
 
         /// <summary>
@@ -76,48 +58,29 @@ namespace P2FixAnAppDotNetCode.Models
         /// </summary>
         public double GetAverageValue()
         {
-            // TODO: Implement logic to calculate the average value of the cart
-            double averageValue = 0.0;
-
-            if (cartLines.Count > 0)
+            if (cartLines.Count == 0)
             {
-                double totalValue = GetTotalValue();
-                averageValue = totalValue / cartLines.Count;
+                return 0.0;
             }
 
-            return averageValue;
+            double totalValue = GetTotalValue();
+            return totalValue / cartLines.Count;
         }
 
         /// <summary>
-        /// Looks for a given product in the cart and returns it if found
+        /// Looks after a given product in the cart and returns if it finds it
         /// </summary>
         public Product FindProductInCartLines(int productId)
         {
-             var cartLine = cartLines.FirstOrDefault(l => l.Product.Id == productId);
-
-             return cartLine?.Product;
-            
-            //if it is not null
-           /* List<CartLine> cartLines = GetCartLineList();
-            foreach (var cartLine in cartLines) {
-                if (cartLine.Product.Id == productId)
-                {
-                    return cartLine.Product;
-                }
-                else {
-                    return null;
-                }*/
-            }
-                    
-           
-       
+            return cartLines.FirstOrDefault(l => l.Product.Id == productId)?.Product;
+        }
 
         /// <summary>
         /// Get a specified cartline by its index
         /// </summary>
         public CartLine GetCartLineByIndex(int index)
         {
-            return Lines.ToArray()[index];
+            return index >= 0 && index < cartLines.Count ? cartLines[index] : null;
         }
 
         /// <summary>
@@ -129,13 +92,12 @@ namespace P2FixAnAppDotNetCode.Models
         }
     }
 
-    /// <summary>
-    /// Represents a line in the cart
-    /// </summary>
     public class CartLine
     {
         public int OrderLineId { get; set; }
         public Product Product { get; set; }
         public int Quantity { get; set; }
     }
+
+
 }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Localization;
 namespace P2FixAnAppDotNetCode.Models.Services
 {
     /// <summary>
-    /// Provides services method to manage the application language
+    /// Provides services methods to manage the application language
     /// </summary>
     public class LanguageService : ILanguageService
     {
@@ -22,10 +22,22 @@ namespace P2FixAnAppDotNetCode.Models.Services
         /// </summary>
         public string SetCulture(string language)
         {
-            string culture = "";
-            // TODO complete the code 
-            // Default language is "en", french is "fr" and spanish is "es".
-            
+            // Default language is "en", French is "fr", and Spanish is "es".
+            string culture = string.Empty;
+
+            switch (language.ToLower())
+            {
+                case "fr":
+                    culture = "fr";
+                    break;
+                case "es":
+                    culture = "es";
+                    break;
+                default:
+                    culture = "en";
+                    break;
+            }
+
             return culture;
         }
 

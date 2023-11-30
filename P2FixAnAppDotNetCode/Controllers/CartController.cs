@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using P2FixAnAppDotNetCode.Models;
 using P2FixAnAppDotNetCode.Models.Services;
@@ -46,6 +47,11 @@ namespace P2FixAnAppDotNetCode.Controllers
             if (product != null)
             {
                 _cart.RemoveLine(product);
+            }
+            else
+            {
+                return RedirectToAction("Error");
+
             }
             return RedirectToAction("Index");
         }
