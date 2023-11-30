@@ -71,6 +71,7 @@ namespace P2FixAnAppDotNetCode
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Product}/{action=Index}/{id?}");
+               
             });
         }
     }

@@ -95,7 +95,9 @@ namespace P2FixAnAppDotNetCode.Models
         {
              var cartLine = cartLines.FirstOrDefault(l => l.Product.Id == productId);
 
-             return cartLine?.Product;//if it is not null
+             return cartLine?.Product;
+            
+            //if it is not null
            /* List<CartLine> cartLines = GetCartLineList();
             foreach (var cartLine in cartLines) {
                 if (cartLine.Product.Id == productId)
