@@ -22,10 +22,30 @@ namespace P2FixAnAppDotNetCode
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
+
+            services.Configure<RequestLocalizationOptions>(opts =>
+            {
+                var supportedCultures = new List<CultureInfo>
+        {
+                  new CultureInfo("en-EN"),
+                  new CultureInfo("en-US"),
+                 new CultureInfo("fr"),
+                 new CultureInfo("fr-FR"),
+            new CultureInfo("es-ES"),
+            new CultureInfo("es"),
+        };
+
+                opts.DefaultRequestCulture = new RequestCulture("en");
+                // Formatting numbers, dates, etc.
+                opts.SupportedCultures = supportedCultures;
+                // UI strings that we have localized.
+                opts.SupportedUICultures = supportedCultures;
+            });
+
             services.AddSingleton<ICart, Cart>();
             services.AddSingleton<ILanguageService, LanguageService>();
             services.AddTransient<IProductService, ProductService>();
@@ -39,25 +59,6 @@ namespace P2FixAnAppDotNetCode
                     LanguageViewLocationExpanderFormat.Suffix,
                     opts => { opts.ResourcesPath = "Resources"; })
                 .AddDataAnnotationsLocalization();
-
-            services.Configure<RequestLocalizationOptions>(opts =>
-            {
-                var supportedCultures = new List<CultureInfo>
-                {
-                    new CultureInfo("en-GB"),
-                    new CultureInfo("en-US"),
-                    new CultureInfo("en"),
-                    new CultureInfo("fr-FR"),
-                    new CultureInfo("fr"),
-                    new CultureInfo("es"),
-                };
-
-                opts.DefaultRequestCulture = new RequestCulture("en");
-                // Formatting numbers, dates, etc.
-                opts.SupportedCultures = supportedCultures;
-                // UI strings that we have localized.
-                opts.SupportedUICultures = supportedCultures;
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

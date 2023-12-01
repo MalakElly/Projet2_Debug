@@ -18,7 +18,7 @@ namespace P2FixAnAppDotNetCode.Controllers
         public IActionResult ChangeUiLanguage(LanguageViewModel model, string returnUrl)
         {
             if (model.Language != null)
-            {
+            {   
                 _languageService.ChangeUiLanguage(HttpContext, model.Language);
             }
 
