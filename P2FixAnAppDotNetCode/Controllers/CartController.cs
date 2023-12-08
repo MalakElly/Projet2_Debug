@@ -39,21 +39,4 @@ namespace P2FixAnAppDotNetCode.Controllers
             }
         }
 
-        public RedirectToActionResult RemoveFromCart(int id)
-        {
-            Product product = _productService.GetAllProducts()
-                .FirstOrDefault(p => p.Id == id);
-
-            if (product != null)
-            {
-                _cart.RemoveLine(product);
-            }
-            else
-            {
-                return RedirectToAction("Error");
-
-            }
-            return RedirectToAction("Index");
-        }
     }
-}
