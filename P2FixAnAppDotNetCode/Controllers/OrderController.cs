@@ -19,7 +19,10 @@ namespace P2FixAnAppDotNetCode.Controllers
             _localizer = localizer;
         }
 
-        public ViewResult Index() => View(new Order());
+        public IActionResult Index() { 
+            
+            return View(new Order()); 
+        }
 
         [HttpPost]
         public IActionResult Index(Order order)

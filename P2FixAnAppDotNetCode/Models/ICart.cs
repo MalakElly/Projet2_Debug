@@ -5,6 +5,7 @@ namespace P2FixAnAppDotNetCode.Models
     {
         void AddItem(Product product, int quantity);
 
+        void RemoveSingleProduct(Product product, int quantity);
         void RemoveLine(Product product);
 
         void Clear();

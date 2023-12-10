@@ -38,13 +38,29 @@ namespace P2FixAnAppDotNetCode.Models
                 existingLine.Quantity += quantity;
             }
         }
-
         /// <summary>
         /// Removes a product from the cart
         /// </summary>
         public void RemoveLine(Product product) =>
             cartLines.RemoveAll(l => l.Product.Id == product.Id);
 
+        public void RemoveSingleProduct(Product product, int quantity)
+        {
+            CartLine existingLine = cartLines.FirstOrDefault(l => l.Product.Id == product.Id);
+            if (existingLine.Quantity == 1)
+            {
+
+                cartLines.RemoveAll(l => l.Product.Id == product.Id);
+            } 
+            if (existingLine != null && existingLine.Quantity>1)
+            {
+                // Product not in cart, add a new CartLine
+                existingLine.Quantity -= quantity;
+            }
+           
+        }
+     
+        
         /// <summary>
         /// Get total value of a cart
         /// </summary>

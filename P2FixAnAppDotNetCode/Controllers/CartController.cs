@@ -38,5 +38,23 @@ namespace P2FixAnAppDotNetCode.Controllers
                 return RedirectToAction("Index", "Product");
             }
         }
+        [HttpPost]
+        public RedirectToActionResult RemoveFromCart(int id)
+        {
+            Product product = _productService.GetProductById(id);
+           
+            if (product != null)
+            {
+                _cart.RemoveSingleProduct(product,1);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Product");
+            }
+        }
+
+
 
     }
+}
