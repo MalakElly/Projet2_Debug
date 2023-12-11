@@ -19,15 +19,12 @@ namespace P2FixAnAppDotNetCode.Controllers
             _localizer = localizer;
         }
 
-        public IActionResult Index() { 
-            
-            return View(new Order()); 
-        }
+        public ViewResult Index() => View(new Order());
 
         [HttpPost]
         public IActionResult Index(Order order)
         {
-            if (!((Cart) _cart).Lines.Any())
+            if (!((Cart)_cart).Lines.Any())
             {
                 ModelState.AddModelError("", _localizer["CartEmpty"]);
             }
@@ -35,6 +32,7 @@ namespace P2FixAnAppDotNetCode.Controllers
             {
                 order.Lines = (_cart as Cart)?.Lines.ToArray();
                 _orderService.SaveOrder(order);
+             
                 return RedirectToAction(nameof(Completed));
             }
             else

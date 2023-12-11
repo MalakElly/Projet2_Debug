@@ -46,8 +46,8 @@ namespace P2FixAnAppDotNetCode.Models.Services
             foreach (var cartLine in cart.Lines)
             {
                 int productId = cartLine.Product.Id;
-                int quantityOrdered = cartLine.Quantity;
-                _productRepository.UpdateProductStocks(productId, quantityOrdered);
+                int quantityToRemove = cartLine.Quantity;
+                _productRepository.UpdateProductStocks(productId, quantityToRemove);
             }
         }
     }

@@ -26,6 +26,7 @@ namespace P2FixAnAppDotNetCode.Models.Services
         {
             order.Date = DateTime.Now;
             _repository.Save(order);
+
             UpdateInventory();
         }
 
