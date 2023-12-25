@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using P2FixAnAppDotNetCode.Models.Repositories;
 
 namespace P2FixAnAppDotNetCode.Models.Services
@@ -36,6 +37,7 @@ namespace P2FixAnAppDotNetCode.Models.Services
         private void UpdateInventory()
         {
             _productService.UpdateProductQuantities(_cart as Cart);
+            
             _cart.Clear();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using P2FixAnAppDotNetCode.Models.Repositories;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace P2FixAnAppDotNetCode.Models.Services
 {
@@ -47,8 +48,11 @@ namespace P2FixAnAppDotNetCode.Models.Services
             {
                 int productId = cartLine.Product.Id;
                 int quantityToRemove = cartLine.Quantity;
-                _productRepository.UpdateProductStocks(productId, quantityToRemove);
+                
+             
+              _productRepository.UpdateProductStocks(productId, quantityToRemove);
             }
+
         }
     }
 }
